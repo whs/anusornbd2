@@ -1,0 +1,114 @@
+{extends "base.html"}
+{block title prepend}สรุปมหาวิทยาลัย-คณะ | {/block}
+{block body}
+<div class="row">
+<div class="span6">
+	<h1>แยกตามมหาวิทยาลัย</h1>
+	<div id="unigraph" class="graph"></div>
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr><th>มหาวิทยาลัย</th><th>ชาย</th><th>หญิง</th><th>รวม</th></tr>
+		</thead>
+		{foreach $uni as $item}
+		<tr>
+			<td><a href="/register/stats/{$item._id|escape:html}">{$item._id|escape}</a></td>
+			<td>{$item.male}</td>
+			<td>{$item.female}</td>
+			<td>{$item.total}</td>
+		</tr>
+		{/foreach}
+	</table>
+</div>
+<div class="span6">
+	<h1>แยกตามสาขาวิชา</h1>
+	<div id="typegraph" class="graph"></div>
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr><th>กลุ่ม</th><th>ชาย</th><th>หญิง</th><th>รวม</th></tr>
+		</thead>
+		{foreach $fac as $item}
+		<tr{if $item.master} class="master"{/if}>
+			<{if $item.master}th{else}td{/if}>{$item._id}</{if $item.master}th{else}td{/if}>
+			<td>{$item.male}</td>
+			<td>{$item.female}</td>
+			<td>{$item.total}</td>
+		</tr>
+		{/foreach}
+	</table>
+</div>
+</div>
+<script src="/assets/highcharts.js"></script>
+<script src="/assets/hc-exports.js"></script>
+<script>
+new Highcharts.Chart({
+	chart: {
+		renderTo: "unigraph",
+		type: "column",
+		height: null,
+	},
+	plotOptions: {
+		column: {
+			stacking: true
+		}
+	},
+	legend: { enabled: false },
+	title: { text: null },
+	xAxis: {
+		categories: {$uniID|json_encode},
+		labels: {
+			rotation: -90,
+			align: "right"
+		}
+	},
+	yAxis: {
+		title: { text: "จำนวนคน" }
+	},
+	tooltip: {
+		crosshairs: [false, true],
+		shared: true
+	},
+	series: [{
+		name: "ชาย",
+		data: {$uniMale|json_encode}
+	},{
+		name: "หญิง",
+		data: {$uniFemale|json_encode}
+	}]
+});
+new Highcharts.Chart({
+	chart: {
+		renderTo: "typegraph",
+		type: "column",
+		height: null,
+	},
+	plotOptions: {
+		column: {
+			stacking: true
+		}
+	},
+	legend: { enabled: false },
+	title: { text: null },
+	xAxis: {
+		categories: {$uniGroup|json_encode},
+		labels: {
+			rotation: -45,
+			align: "right"
+		}
+	},
+	yAxis: {
+		title: { text: "จำนวนคน" }
+	},
+	tooltip: {
+		crosshairs: [false, true],
+		shared: true
+	},
+	series: [{
+		name: "ชาย",
+		data: {$facMale|json_encode}
+	},{
+		name: "หญิง",
+		data: {$facFemale|json_encode}
+	}]
+});
+</script>
+{/block}

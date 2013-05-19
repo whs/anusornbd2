@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{block title}อนุสรณ์รุ่น {$year}{/block}</title>
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="/assets/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="/assets/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{block head}{/block}
+</head>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="../">อนุสรณ์รุ่น {$year}</a>
+				<div class="nav-collapse" id="main-menu">
+					<ul class="nav" id="main-menu-left">
+						<li><a href="https://www.facebook.com/anusornbodin2">อนุสรณ์</a></li>
+						<li><a href="/address/">กรอกที่อยู่</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">ข้อมูลการศึกษาต่อ <b class="caret"></b></a>
+							<ul class="dropdown-menu" id="swatch-menu">
+								<li><a href="/register/"><i class="icon-group"></i> ข้อมูลการศึกษาต่อ</a></li>
+								<li><a href="/register/add"><i class="icon-plus"></i> กรอกข้อมูล</a></li>
+								<li class="visible-desktop">
+									<li class="divider"></li>
+									{foreach range(1, 14) as $cls}
+									<li><a href="/register/6/{$cls}">6/{$cls}</a></li>
+									{/foreach}
+								</li>
+								<li class="divider"></li>
+								<li><a href="/register/stats"><i class="icon-bar-chart"></i> สรุปมหาวิทยาลัย-คณะ</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    {block header}
+    <header>
+        <div id="headerin"><h1>{block headmsg}ข้อมูลการศึกษาต่อ<small>โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) ๒ รุ่นที่ {$year}</small>{/block}</h1></div>
+    </header>
+    {/block}
+
+    <div class="container" id="main">
+    	{if $message}<div class="alert alert-{$message[0]}"><button type="button" class="close" data-dismiss="alert">×</button> {$message[1]}</div>{/if}
+{block body}{/block}
+	</div>
+	
+	<footer>
+		developed by <a href="http://www.whs.in.th">whs.in.th</a><br>
+		<small>Gen {date("j/n/y g:i:s A")}{if $cacheinfo} / Cache {$cacheinfo}m{/if}{if $coninfo} / Data {$coninfo|join:" / "}{/if}</small>
+	</footer>
+	<img src="http://stat.thaicosplay.org/stat.php?id=8&amp;ref={$referer|rawurlencode}" style="width:1px;height:1px;position:absolute;top:0px;left:0px;visibility:hidden;pointer-events:none;">
+</body>
+</html>

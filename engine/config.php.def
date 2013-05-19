@@ -1,0 +1,18 @@
+<?php
+/**
+ * This file is part of menome engine
+ * (C) 2011-2013 Manatsawin H.
+ * 
+ * menome engine is dual licensed under StealItPL 1.0 and AGPLv3
+ * (or any later version of both license)
+ * @license https://raw.github.com/whs/whs.github.com/master/LICENSE
+ * @license https://www.gnu.org/licenses/agpl.html
+ */
+
+define("SITE_KEY", '');
+define("YEAR", '18');
+$MONGO = new MongoClient("mongodb://user:pass@localhost/anusorn18");
+$DB = $MONGO->anusorn18;
+$PASSWORD = 'password';
+ini_set('display_errors','Off');
+error_reporting(0);

@@ -1,0 +1,79 @@
+{extends "base.html"}
+{block title prepend}ข้อมูลที่อยู่ | {/block}
+{block headmsg}ข้อมูลที่อยู่<small>{$user.prefix}{$user.name} {$user.surname}</small>{/block}
+{block body}
+<h1>ข้อมูลที่อยู่</h1>
+{if $error}<div class="alert alert-error">{$error}</div>{/if}
+{if $info}<div class="alert">{$info}</div>{/if}
+<p class="alert alert-info">ข้อมูลนี้จะถูกนำไปลงในหนังสืออนุสรณ์รุ่น {$year} กรุณากรอกข้อมูลให้ครบถ้วน (ผู้อื่นไม่สามารถดูในอินเทอร์เน็ตได้หากไม่มีรหัส)</p>
+<a class="btn" href="/address/@logout">ออกจากระบบ</a>
+<form action="" method="POST" class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label">เลขประจำตัว</label>
+		<div class="controls">
+			<code>{$user._id|escape}</code>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ห้อง-เลขที่</label>
+		<div class="controls">
+			{if $user.year==$year}6{else}3{/if}/{$user.class|escape} รุ่น {$user.year} 
+			เลขที่ {$user.no}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ชื่อ</label>
+		<div class="controls">
+			<select name="prefix">
+				<option value="นาย" {if $data.prefix == "นาย"}selected{/if}>นาย</option>
+				<option value="น.ส." {if $data.prefix == "น.ส."}selected{/if}>น.ส.</option>
+				{if $user.year != $year}
+				<option value="ด.ช." {if $data.prefix == "ด.ช."}selected{/if}>ด.ช.</option>
+				<option value="ด.ญ." {if $data.prefix == "ด.ญ."}selected{/if}>ด.ญ.</option>
+				{/if}
+			</select>
+			<input type="text" name="name" value="{$data.name|escape}" required>
+			<input type="text" name="surname" value="{$data.surname|escape}" required>
+			<div class="help-block">ตรวจสอบความถูกต้อง
+				{if $user.year == $year}
+				หากไม่ถูกต้องกรุณาแก้ไขให้ถูกต้องและโพสต์แจ้งไว้ในกรุ๊ปรุ่น ทั้งนี้หากมีการแก้ไขในส่วนอื่นๆ ของโปรแกรมยังจะใช้ชื่อตามทะเบียน
+				{else}
+				หากไม่ถูกต้องกรุณาแก้ไขให้ถูกต้องและโพสต์แจ้งไว้ที่<a href="https://www.facebook.com/anusornbodin2">เพจอนุสรณ์รุ่น</a>
+				{/if}
+			</div>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ชื่อเล่น</label>
+		<div class="controls">
+			<input type="text" name="nick" value="{$data.nick|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">วันเกิด</label>
+		<div class="controls">
+			<input type="date" name="birthday" value="{$data.birthday.2-543}-{"%02d"|sprintf:$data.birthday.1}-{"%02d"|sprintf:$data.birthday.0}" required>
+			<div class="help-block">หากไม่มีปฏิทินขึ้นกรุณาใช้ Google Chrome</div>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ที่อยู่</label>
+		<div class="controls">
+			<textarea required name="address" style="width: 100%; height: 100px">{$data.address|escape}</textarea>
+			<div class="help-block">
+				<strong>ตัวอย่าง</strong>
+				<p>333 ซ. นวมินทร์ 76 ถ. นวมินทร์<br>แขวงนวลจันทร์ เขตบึงกุ่ม<br>กรุงเทพฯ 10240</p>
+			</div>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">โทรศัพท์</label>
+		<div class="controls">
+			<input type="tel" name="telmobile" required pattern="{literal}0[0-9]{8,9}{/literal}" value="{$data.telmobile|escape:html}">
+		</div>
+	</div>
+	<div class="form-actions">
+		<input type="submit" class="btn btn-primary" value="บันทึก">
+	</div>
+</form>
+{/block}

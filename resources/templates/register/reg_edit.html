@@ -1,0 +1,53 @@
+{extends "base.html"}
+{block title prepend}แก้ไข {$reg._id} | {/block}
+{block headmsg}{$reg._id}{/block}
+{block body}
+{if $success}
+<div class="alert alert-success">บันทึกข้อมูลแล้ว</div>
+{/if}
+<form class="form-horizontal" method="POST">
+	<div class="control-group">
+		<label class="control-label">เลขประจำตัว</label>
+		<div class="controls">
+			<input type="text" class="input-mini" name="student" value="{$reg.student|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">มหาวิทยาลัย</label>
+		<div class="controls">
+			<input type="text" class="input-xxlarge" name="uni" value="{$reg.uni|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">คณะ</label>
+		<div class="controls">
+			<input type="text" class="input-xxlarge" name="fac" value="{$reg.fac|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ชนิด</label>
+		<div class="controls">
+			<label class="span2"><input type="radio" name="examtype" value="exam" required{if $reg.examtype == "exam"} checked{/if}> สอบตรง</label>
+			<label class="span2"><input type="radio" name="examtype" value="direct" required{if $form.examtype == "direct"} checked{/if}> รับตรง</label>
+			<label class="span2"><input type="radio" name="examtype" value="quota" required{if $reg.examtype == "quota"} checked{/if}> โควต้า</label>
+			<label class="span2"><input type="radio" name="examtype" value="admission" required{if $reg.examtype == "admission"} checked{/if}> แอดมิชชั่น</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ทุน</label>
+		<div class="controls">
+			<input type="checkbox" name="fund"{if $reg.fund} checked{/if}>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">เอาคณะนี้</label>
+		<div class="controls">
+			<input type="checkbox" name="latest"{if $reg.latest} checked{/if}>
+			<div class="help-block">หนึ่งคนจะมีได้อันเดียว ถ้าจะเปลี่ยนให้ยกเลิกช่องนี้ของรายการอื่นให้หมด</div>
+		</div>
+	</div>
+	<div class="form-actions">
+		<input type="submit" value="บันทึก" class="btn btn-primary">
+	</div>
+</form>
+{/block}

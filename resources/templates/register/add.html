@@ -1,0 +1,143 @@
+{extends "register/index.html"}
+{block body}
+<h1>กรอกข้อมูล</h1>
+{if $error}<div class="alert alert-error">{$error}</div>{/if}
+<p>หากติดหลายๆ ที่ ให้คีย์ข้อมูลหลายๆ ครั้ง โดยเอามหาวิทยาลัยที่เลือกไว้หลังสุด</p>
+<form action="/register/add" method="POST">
+	<label>
+		เลขประจำตัวนักเรียน
+		<div><input required type="number" min="10000" max="99999" name="id"{if $form.id} value="{$form.id|escape:html}"{/if}>
+		<div class="help-inline"></div></div>
+	</label>
+	<label>
+		มหาวิทยาลัย
+		<div>
+			<select name="uni" required style="width: 100%">
+				<option value="" disabled>-------------</option>
+				{foreach $unilist as $uni}
+				<option{if $form.uni == $uni} selected{/if}>{$uni}</option>
+				{/foreach}
+				<option value="other"{if $form.uni == "other"} selected{/if}>อื่นๆ</option>
+			</select>
+			<input class="other" name="otheruni" type="text" placeholder="มหาวิทยาลัย"{if $form.otheruni} value="{$form.otheruni|escape:html}"{/if}>
+		</div>
+		{if $auth}
+		<div><a href="/register/@addfac">เพิ่มคณะ</a></div>
+		{/if}
+	</label>
+	<label>
+		คณะ
+		<div>
+			<select name="fac" required style="width: 100%"><option value="" disabled>เลือกมหาวิทยาลัย</option></select>
+			<input class="other" name="otherfac" type="text" placeholder="คณะ"{if $form.otherfac} value="{$form.otherfac|escape:html}"{/if}>
+		</div>
+	</label>
+	<fieldset class="well">
+		<div class="row">
+			<label class="span2"><input type="radio" name="examtype" value="exam" required{if $form.examtype == "exam" or !$form} checked{/if}> สอบตรง</label>
+			<label class="span2"><input type="radio" name="examtype" value="direct" required{if $form.examtype == "direct"} checked{/if}> รับตรง</label>
+			<label class="span2"><input type="radio" name="examtype" value="quota" required{if $form.examtype == "quota"} checked{/if}> โควต้า</label>
+			<label class="span2"><input type="radio" name="examtype" value="admission" required{if $form.examtype == "admission"} checked{/if}> แอดมิชชั่น</label>
+		</div>
+		<label>
+			<input type="checkbox" name="fund" value="Y"{if $form.fund == "Y"} checked{/if}> ได้ทุน
+		</label>
+	</fieldset>
+	<div class="row">
+		<label class="span2 radio">
+			<input type="radio" required name="filler" value="self"{if $form.filler == "self" or !$form} checked{/if}>
+			กรอกด้วยตัวเอง
+		</label>
+		<label class="span2 radio">
+			<input type="radio" required name="filler" value="other"{if $form.filler == "other"} checked{/if}>
+			เพื่อนกรอกให้
+		</label>
+	</div>
+	<div class="verify verify_self">
+		<label>
+			4 ตัวท้ายเลขบัตรประชาชน
+			<div><input type="number" name="tssn" min="0" max="9999"{if $form.tssn} value="{$form.tssn|escape:html}"{/if}></div>
+		</label>
+		{*<div class="well">
+			<div>ขอความร่วมมือกรอกข้อมูลติดต่อเพื่อลงในหนังสืออนุสรณ์ <strong>ทั้งนี้ไม่เป็นการบังคับแต่อย่างใด</strong> ข้อมูลบางช่องจะไม่เปิดเผยในเว็บนี้ ช่องไหนไม่มีสามารถข้ามได้ <strong>ถ้าเคยกรอกช่องไหนแล้ว และไม่ต้องการแก้ไขให้เว้นไว้</strong></div>
+			<div class="row">
+				<label class="span3">
+					Twitter
+					<div><input type="text" name="twitter" maxlength="16"{if $form.twitter} value="{$form.twitter|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					Facebook (URL)
+					<div><input type="url" name="facebook" {if $form.twitter} value="{$form.facebook|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					โทรศัพท์บ้าน (ไม่แสดงบนเว็บ)
+					<div><input type="tel" name="tel" pattern="{literal}0[2345679][0-9]{7}{/literal}" {if $form.tel} value="{$form.tel|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					โทรศัพท์มือถือ (ไม่แสดงบนเว็บ)
+					<div><input type="tel" name="telmobile" pattern="{literal}08[0-9]{8}{/literal}" {if $form.telmobile} value="{$form.telmobile|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					E-Mail
+					<div><input type="email" name="email" {if $form.email} value="{$form.email|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					Live messenger (MSN)
+					<div><input type="email" name="msn" {if $form.msn} value="{$form.msn|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					LINE
+					<div><input type="text" name="line" maxlength="16" {if $form.line} value="{$form.line|escape:html}"{/if}></div>
+				</label>
+				<label class="span3">
+					menome (Short URL)
+					<div><input type="text" name="menome" maxlength="24" {if $form.menome} value="{$form.menome|escape:html}"{/if}></div>
+				</label>
+			</div>
+			<label>
+				ที่อยู่ (ไม่แสดงบนเว็บ)
+				<div><textarea name="address" style="width: 50%; height: 150px;">{$form.address}</textarea></div>
+			</label>
+		</div>*}
+	</div>
+	<div class="verify verify_other">
+		<label>
+			เลขประจำตัวนักเรียนผู้กรอก
+			<div><input type="number" name="fillerid" min="10000" max="99999"{if $form.fillerid} value="{$form.fillerid|escape:html}"{/if}>
+			<div class="help-inline"></div></div>
+		</label>
+	</div>
+	<div class="form-actions">
+		<input type="submit" class="btn btn-primary" value="บันทึกข้อมูล">
+	</div>
+</form>
+<script>
+$("input[name=id],input[name=fillerid]").change(function(){
+	$(this).next().load("/register/_xhr/student/" + $(this).val());
+});
+$("input[name=filler]").change(function(){
+	$(".verify").hide().find("input").attr("required", false);
+	$(".verify_" + $("input[name=filler]:checked").val()).show().find("input").attr("required", true);
+	$(".verify_self .well").find("input").attr("required", false);
+}).change();
+$("select[name=uni]").change(function(){
+	$(".other").hide();
+	if($(this).val() == ""){
+		return;
+	}else if($(this).val() == "other"){
+		$(".other").show();
+		$("select[name=fac]").hide().attr("required", false);
+	}else{
+		var faclist = $("select[name=fac]").empty().show().attr("required", true);
+		$.getJSON("/register/_xhr/faculty/", { uni: $(this).val() }, function(x){
+			$.each(x, function(k,v){
+				$('<option>').text(v.name).appendTo(faclist);
+			});
+			{if $form.fac}
+			faclist.val({$form.fac|json_encode});
+			{/if}
+		});
+	}
+}).change();
+</script>
+{/block}

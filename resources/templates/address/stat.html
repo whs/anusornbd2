@@ -1,0 +1,26 @@
+{extends "base.html"}
+{block title prepend}ข้อมูลที่อยู่ | {/block}
+{block headmsg}ข้อมูลที่อยู่<small>อนุสรณ์รุ่น {$year}</small>{/block}
+{block body}
+<h1>กรอกข้อมูลแล้ว {$cnt}/{$stucnt} ({$percent|number_format:2}%)</h1>
+<div class="progress">
+	<div class="bar bar-success" style="width: {$percent}%;"></div>
+	<div class="bar bar-warning" style="width: {($oldonly|count)*100/$stucnt}%;"></div>
+</div>
+<p>(เขียว=กรอกระบบใหม่แล้ว ส้ม=กรอกระบบเก่าแล้ว)</p>
+<p>รับข้อมูล ติดต่อ มนัสวิน หรือ ชวัลวิทย์</p>
+<h1>กรอกแล้ว</h1>
+<p>(แดง = กรอกแต่ในระบบเก่า)</p>
+<style>.label{ font-size: 10pt; line-height: 2em; }</style>
+<div>
+{assign var="class" value=0}
+{foreach $names as $n}
+{if $n.class != $class}
+{assign var="class" value=$n.class}
+</div><div class="span4">
+<h2>{if $n.year == $year}6{else}3{/if}/{$class}</h2>
+{/if}
+<span class="label {if in_array($n._id, $oldonly)}label-important{/if}">{$n.name}</span>
+{/foreach}
+</div>
+{/block}

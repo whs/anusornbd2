@@ -1,0 +1,41 @@
+{extends "base.html"}
+{block title prepend}6/{$class} | {/block}
+{block headmsg}6/{$class}<small>{$classDef}</small>{/block}
+{block body}
+<ul class="pager">
+	{if $class != 1}
+	<li class="previous">
+		<a href="/register/6/{$class-1}">&larr; 6/{$class-1}</a>
+	</li>
+	{/if}
+	{if $class != 14}
+	<li class="next">
+		<a href="/register/6/{$class+1}">6/{$class+1} &rarr;</a>
+	</li>
+	{/if}
+</ul>
+<a class="btn btn-primary" style="display: block; margin: auto; margin-top: -3.8em; width: 119px;" href="/register/add"><i class="icon-plus icon-large icon-white"></i> กรอกข้อมูล</a>
+<table class="table table-striped" style="margin-top: 20px; clear: both;">
+	<thead>
+		<tr><th>เลขที่</th><th colspan="3">ชื่อ</th>{if $auth}<th>ชื่อเล่น</th>{/if}<th>สถาบัน</th><th>คณะ</th><th>ประเภท</th><th></th></tr>
+	</thead>
+	<tbody>
+		{foreach $member as $item}
+		<tr>
+			<td>{$item.no}</td>
+			<td>{$item.prefix|escape}</td>
+			<td>{$item.name|escape}</td>
+			<td>{$item.surname|escape}</td>
+			{if $auth}<td>{$item.nick|escape}</td>{/if}
+			<td>{$item.uni|escape}</td>
+			<td>{$item.fac|escape}</td>
+			<td>{$entType[$item.examtype]}{if $item.fund} (ได้ทุน){/if}</td>
+			<td>
+				<a href="/register/6/{$class}/{$item.no}/history"><i class="icon-undo icon-large"></i> ข้อมูลย้อนหลัง</a>
+				{if $auth}<a href="/register/{$item._id}/@edit"><i class="icon-pencil"></i></a>{/if}
+			</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+{/block}

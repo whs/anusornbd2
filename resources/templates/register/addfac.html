@@ -1,0 +1,25 @@
+{extends "base.html"}
+{block title prepend}เพิ่มคณะ | {/block}
+{block headmsg}เพิ่มคณะ{/block}
+{block body}
+{if $success}
+<div class="alert alert-success">บันทึกข้อมูลแล้ว</div>
+{/if}
+<form class="form-horizontal" method="POST">
+	<div class="control-group">
+		<label class="control-label">มหาวิทยาลัย</label>
+		<div class="controls">
+			<input type="text" class="input-xxlarge" name="university" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">คณะ</label>
+		<div class="controls">
+			<input type="text" class="input-xxlarge" name="name" required>
+		</div>
+	</div>
+	<div class="form-actions">
+		<input type="submit" value="บันทึก" class="btn btn-primary">
+	</div>
+</form>
+{/block}

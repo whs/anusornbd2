@@ -1,0 +1,23 @@
+{extends "base.html"}
+{block title prepend}{$data.0.uni|escape} | {/block}
+{block headmsg}{$data.0.uni|escape}<small>จำนวน {$data|count} คน</small>{/block}
+{block body}
+<table class="table table-striped table-bordered" style="margin-top: 20px; clear: both;">
+	<thead>
+		<tr><th>ลำดับ</th><th colspan="3">ชื่อ</th><th>ห้อง</th><th>คณะ</th><th>ประเภท</th></tr>
+	</thead>
+	<tbody>
+		{foreach $data as $item name=data}
+		<tr>
+			<td>{$smarty.foreach.data.index+1}</td>
+			<td>{$item.student.prefix|escape}</td>
+			<td>{$item.student.name|escape}</td>
+			<td>{$item.student.surname|escape}</td>
+			<td>6/{$item.student.class|escape}</td>
+			<td>{$item.fac|escape}</td>
+			<td>{$entType[$item.examtype]}{if $item.fund} (ได้ทุน){/if}</td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+{/block}

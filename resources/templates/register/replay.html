@@ -1,0 +1,91 @@
+{extends "base.html"}
+{block title prepend}Replay | {/block}
+{block body}
+<h1 id="time">Loading...</h1>
+<table class="table table-striped table-bordered" style="margin-top: 20px; clear: both;" id="restable">
+	<thead>
+		<tr><th colspan="3">ชื่อ</th><th>ห้อง</th><th>มหาวิทยาลัย</th><th>คณะ</th><th>ประเภท</th></tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script>
+var framedata=[];
+var startDate = new Date(2012, 9, 1).getTime();
+var inLoading = false, noMoreLoading = false;
+var loadFrame = function(cb){
+	var last_frame,e;
+	if(inLoading || noMoreLoading){
+		return;
+	}
+	inLoading = true;
+	try{
+		last_frame = framedata[framedata.length-1]._id;
+	}catch(e){
+		last_frame = null;
+	}
+	$.getJSON("replay", { 'json': last_frame }, function(d){
+		if(d.length == 0){
+			noMoreLoading = true;
+		}
+		framedata.push.apply(framedata, d);
+		framedata = _.sortBy(framedata, function(x){
+			return x.time;
+		});
+		inLoading = false;
+		cb ? cb() : null;
+	});
+}
+var currentTime = startDate, timeStepping = 60000 * 60 * 6, timeSteppingPer=50;
+var lastQuerySet = [];
+var type = {
+	'exam': 'สอบตรง',
+	'direct': 'รับตรง',
+	'quota': 'โควต้า',
+	'admission': 'แอดมิชชั่น'
+}
+var inPlaying = false;
+// TODO: Investigate whether dynamic timestepping is more awesome?
+function play(force){
+	if(inPlaying && force !== true) return;
+	inPlaying = true;
+	var date = new Date(currentTime);
+	$("#time").text(date.toDateString());
+
+	var queryset = [];
+	_.each(framedata, function(e){
+		if(e.time <= currentTime){
+			queryset.push(e);
+		}else{
+			return false;
+		}
+	});
+	var diff = _.difference(queryset, lastQuerySet);
+	_.each(diff, function(e){
+		var tr = $("<tr>");
+		$("<td>").appendTo(tr).text(e.student.prefix);
+		$("<td>").appendTo(tr).text(e.student.name);
+		$("<td>").appendTo(tr).text(e.student.surname);
+		$("<td>").appendTo(tr).text(e.student['class']);
+		$("<td>").appendTo(tr).text(e.uni);
+		$("<td>").appendTo(tr).text(e.fac);
+		$("<td>").appendTo(tr).text(type[e.examtype]+" "+(e.quota?"(ได้ทุน)":""));
+		tr.prependTo("#restable");
+	});
+	lastQuerySet = queryset;
+	currentTime += timeStepping;
+	if(framedata.length - queryset.length < 20){
+		loadFrame(play);
+	}
+	if(framedata.length - queryset.length == 0){
+		inPlaying = false;
+	}else{
+		setTimeout(play, timeSteppingPer, true);
+	}
+}
+$(function(){
+	loadFrame(play);
+});
+</script>
+{/block}

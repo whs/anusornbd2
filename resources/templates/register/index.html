@@ -1,0 +1,11 @@
+{extends "base.html"}
+{block title prepend}ข้อมูลการศึกษาต่อ | {/block}
+{block body}
+<div class="row">
+    {foreach range(1, 14) as $cls}
+    <div class="span2 classroom"><a href="/register/6/{$cls}">6/{$cls}</a></div>
+    {/foreach}
+    <div class="span4 classroom"><a href="/register/stats">สรุปมหาวิทยาลัย-คณะ</a></div>
+    <div class="span4 classroom"><a href="/register/add" class="addlink">กรอกข้อมูล</a></div>
+</div>
+{/block}

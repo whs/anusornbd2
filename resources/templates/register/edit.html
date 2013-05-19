@@ -1,0 +1,68 @@
+{extends "base.html"}
+{block title prepend}แก้ไข | {/block}
+{block headmsg}{$person.prefix|escape} {$person.name|escape} {$person.surname|escape}<small>6/{$person.class}</small>{/block}
+{block body}
+{if $success}
+<div class="alert alert-success">บันทึกข้อมูลแล้ว</div>
+{/if}
+<form class="form-horizontal" method="POST">
+	<div class="control-group">
+		<label class="control-label">เลขประจำตัว</label>
+		<div class="controls">
+			<code>{$person._id|escape}</code> (ไม่สามารถแก้ไขได้)
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">คำนำหน้า</label>
+		<div class="controls">
+			<input type="text" class="input-mini" name="prefix" value="{$person.prefix|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ชื่อ</label>
+		<div class="controls">
+			<input type="text" name="name" value="{$person.name|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">สกุล</label>
+		<div class="controls">
+			<input type="text" name="surname" value="{$person.surname|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ชื่อเล่น</label>
+		<div class="controls">
+			<input type="text" name="nick" value="{$person.nick|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">ห้อง</label>
+		<div class="controls">
+			<div class="input-prepend">
+				<span class="add-on">6/</span>
+				<input type="number" min="1" max="14" name="class" class="input-mini" value="{$person.class|escape}" required>
+			</div>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">เลขที่</label>
+		<div class="controls">
+			<input type="number" name="no" class="input-mini" value="{$person.no|escape}" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">วันเกิด</label>
+		<div class="controls">
+			<input type="number" min="1" max="31" name="birthday.0" value="{$person.birthday.0|escape}" class="input-mini" required>
+			/
+			<input type="number" min="1" max="12" name="birthday.1" value="{$person.birthday.1|escape}" class="input-mini" required>
+			/
+ 			<input type="number" min="2530" max="2555" name="birthday.2" value="{$person.birthday.2|escape}" class="input-mini" required>
+		</div>
+	</div>
+	<div class="form-actions">
+		<input type="submit" value="บันทึก" class="btn btn-primary">
+	</div>
+</form>
+{/block}

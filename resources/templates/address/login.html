@@ -1,0 +1,25 @@
+{extends "base.html"}
+{block title prepend}ข้อมูลที่อยู่ | {/block}
+{block headmsg}ข้อมูลที่อยู่<small>อนุสรณ์รุ่น {$year}</small>{/block}
+{block body}
+<div class="span4 well" style="float: none; margin: auto;">
+	<h1>เข้าสู่ระบบ</h1>
+	{if $error}<div class="alert alert-error">{$error}</div>{/if}
+	<form action="" method="POST">
+		<label>
+			เลขประจำตัวนักเรียน
+			<div><input required type="number" min="10000" max="99999" name="id"></div>
+		</label>
+		<label>
+			เลขบัตรประชาชน 4 ตัวท้าย
+			<div>
+				<input type="number" name="pw">
+				<div class="help-block">ม. 3 ไม่ต้องกรอก</div>
+			</div>
+		</label>
+		<div class="form-actions">
+			<input type="submit" class="btn btn-primary" value="เข้าสู่ระบบ">
+		</div>
+	</form>
+</div>
+{/block}
