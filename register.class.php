@@ -729,9 +729,12 @@ class Register extends Base{
 		$student = $this->DB->students->findOne(array(
 			"_id" => (int) $_POST['id'],
 			"year" => YEAR
-		), array("_id", "tssn"));
+		), array("_id", "tssn", "locked"));
 		if(!$student){
 			return "ไม่พบนักเรียนเลขประจำตัวนี้";
+		}
+		if($student['locked']){
+			return 'ข้อมูลนักเรียนถูกล็อค กรุณาแจ้งในกรุ๊ปรุ่นหรือผู้ดูแลระบบ';
 		}
 		if(!empty($_POST['tssn']) && $_POST['tssn'] != $student['tssn']){
 			return "เลขบัตรประชาชนไม่ถูกต้อง";
@@ -748,8 +751,8 @@ class Register extends Base{
 			}
 		}
 
-		$uni = $_POST['uni'];
-		$fac = $_POST['fac'];
+		$uni = (string) $_POST['uni'];
+		$fac = (string) $_POST['fac'];
 		if($uni == "other"){
 			$uni = $_POST['otheruni'];
 			$fac = $_POST['otherfac'];
