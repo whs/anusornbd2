@@ -51,6 +51,7 @@ $router = new URLRouter(array(
 	"register\/@exportfac"			=> array("register.class.php", array("Register", "exportfac")),
 	"register\/@export2"			=> array("register.class.php", array("Register", "export2")),
 	"register\/@exportnames"	=> array("register.class.php", array("Register", "exportnames")),
+	"register\/_dllist"			=> array("register.class.php", array("Register", "dllist")),
 
 	"address"					=> array("address.class.php", array("Address", "closed")),
 	/*"address\/edit"				=> array("address.class.php", array("Address", "edit")),

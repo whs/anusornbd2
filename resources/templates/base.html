@@ -25,7 +25,7 @@
 				<div class="nav-collapse" id="main-menu">
 					<ul class="nav" id="main-menu-left">
 						<li><a href="https://www.facebook.com/anusornbodin2">อนุสรณ์</a></li>
-						<li><a href="/address/">กรอกที่อยู่</a></li>
+						{*<li><a href="/address/">กรอกที่อยู่</a></li>*}
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">ข้อมูลการศึกษาต่อ <b class="caret"></b></a>
 							<ul class="dropdown-menu" id="swatch-menu">
@@ -60,8 +60,7 @@
 	
 	<footer>
 		developed by <a href="http://www.whs.in.th">whs.in.th</a><br>
-		<small>Gen {date("j/n/y g:i:s A")}{if $cacheinfo} / Cache {$cacheinfo}m{/if}{if $coninfo} / Data {$coninfo|join:" / "}{/if}</small>
+		<small>Gen {date("j/n/y g:i:s A")}{*{if $cacheinfo} / Cache {$cacheinfo}m{/if}{if $coninfo} / Data {$coninfo|join:" / "}{/if}*}</small>
 	</footer>
-	<img src="http://stat.thaicosplay.org/stat.php?id=8&amp;ref={$referer|rawurlencode}" style="width:1px;height:1px;position:absolute;top:0px;left:0px;visibility:hidden;pointer-events:none;">
 </body>
 </html>

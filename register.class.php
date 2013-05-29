@@ -137,7 +137,8 @@ class Register extends Base{
 		$no = (int) $this->phraw->request[2];
 		$student = $this->DB->students->findOne(array(
 			"class" => $cls,
-			"no" => $no
+			"no" => $no,
+			'year' => YEAR
 		));
 		if(!$student){
 			$this->smarty->display_error(404);
@@ -670,6 +671,35 @@ class Register extends Base{
 		header('Cache-Control: max-age=0');
 		$objWriter = PHPExcel_IOFactory::createWriter($xlsx, 'Excel5');
 		$objWriter->save('php://output');
+	}
+
+	public function dllist(){
+		$out = array(
+			array('register', true),
+			array('register/stats', true),
+		);
+		foreach($this->DB->students->distinct('class', array('year' => YEAR)) as $cls){
+			$out[] = array('register/6/'.$cls, true);
+		}
+		foreach($this->DB->students->find(array('year' => YEAR)) as $stu){
+			$out[] = array('register/6/'.$stu['class'].'/'.$stu['no'].'/history', false);
+		}
+		foreach($this->DB->register->distinct('uni', array('latest' => true)) as $uni){
+			$out[] = array('register/stats/'.urlencode($uni), false, 'register/stats/'.$uni);
+		}
+
+		header('Content-Type: text/plain');
+		foreach($out as $i){
+			$outpath = $i[0];
+			if(isset($i[2])){
+				$outpath = $i[2];
+			}
+			if($i[1]){
+				$outpath .= '/index.html';
+			}
+			print 'mkdir -p '.dirname($outpath)."\n";
+			print 'wget \'http://'.$_SERVER['SERVER_NAME'].'/'.$i[0].'\' -O \''.$outpath."'\n";
+		}
 	}
 	
 	public function require_auth(){
